@@ -18,7 +18,7 @@ Capture a portion of pdf and convert the text to .csv file.
 
 # functionality
 - takes original pdf document
-- crops dacument to user selected window size
+- crops document to user selected window size
 - creates "cropped_file"
 - appends all pages to "cropped_file"
 - tabula runs on cropped file to create .csv file
