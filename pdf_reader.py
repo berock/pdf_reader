@@ -1,21 +1,21 @@
-from pdfminer import high_level
 from PyPDF2 import PdfFileReader, PdfFileWriter, PdfFileMerger
 from pathlib import Path
 import tabula
 import pandas as pd
-from os import listdir
+
+pdf_path = (
+    Path.home()
+    / "target_file.pdf"
+)
 
 merger = PdfFileMerger()
+# 
 mergelist = []
 
 # length of window from right side of page
 winr = float(input('how big do you want the read window from the right side of the page? ---> '))
-
-
 # length of window down from top of page
 wint = float(input('how big do you want the read window from the top of the page? ---> '))
-
-
 
 def croppedWindow(winr,wint):
     winr = winr
@@ -75,49 +75,45 @@ def croppedWindow(winr,wint):
         pass
 
 def dataFrame():
-    tabula.io.convert_into("C:/users/brock/documents/GitHub/PDF_Text/cropped_pages.pdf", "C:/users/brock/documents/GitHub/PDF_Text/cropped_pages.csv", output_format="csv",
+    tabula.io.convert_into("target_file.pdf", "output_file.csv", output_format="csv",
                             lattice=True, pages="all")
 
-
-pdf_path = (
-    Path.home()
-    / "documents"
-    / "sales"
-    / "civica es"
-    / "civica - for fabrication.pdf"
-)
 
 # pdf file input
 pdf_input = PdfFileReader(str(pdf_path))
 # get number of pages in pdf file
 pgnum = pdf_input.getNumPages()
+#prints the total number of pages in file
 print('there are',pgnum,'pages in this file')
-# for loop to go through all pages of pdf file
 pgread = pdf_input.getPage(1)
 croppedWindow(winr,wint)
 pdf_writer = PdfFileWriter()
 pdf_writer.addPage(pgread)
-with Path("cropped_pages.pdf").open(mode="wb") as output_file:
+with Path("target_croppedfile.pdf").open(mode="wb") as output_file:
     pdf_writer.write(output_file)
+# while loop to loop through all pages of the file
 num = 1
 while num != pgnum:
     # read certain page of pdf file
     pgread = pdf_input.getPage(num)
+#crop page of original file
     croppedWindow(winr,wint)
+#create string "file" name and append to list, to print to user at end of loop.
     npgread = str("cropped_pages" + str(num) + ".pdf")
     mergelist.append(npgread)
+#append page to existing "cropped file"
     pdf_writer.addPage(pgread)
     with Path("cropped_pages.pdf").open(mode="wb") as output_file:
         pdf_writer.write(output_file)
     num += 1
-
 else:
     pass
 
 print('The contents of mergelist variable', mergelist)
 print('Your cropped pages file is ready')
-print('generating dataframe')
-dataFrame()
+dataframe()
+print('Your .csv file is ready')
+
 
 
 
