@@ -44,15 +44,10 @@ def croppedWindow(winr,wint):
         winr_pts = win_r2 * 72
         win_t2 = wint * 1.85
         wint_pts = win_t2 * 72
-        # gets current dimension of upper right corner of document
         pgread1 = pgread.mediaBox.upperRight
-        # subtracts user offset from upper right horizontal coordinate
         win_r2 = pgread1[0] - winr_pts
-        # subtracts user offset from upper right vertical coordinate
         win_t2 = pgread1[1] - wint_pts
-        # sets upper left edge of cropped window
         pgread.mediaBox.upperLeft = (win_r2, pgsize[3])
-        # sets lower left edge of cropped window
         pgread.mediaBox.lowerLeft = (win_r2, win_t2)
     # if page is 36x24
     elif pgsize[2] == 2592:
@@ -60,17 +55,12 @@ def croppedWindow(winr,wint):
         winr_pts = win_r2 * 72
         win_t2 = wint * 2.55
         wint_pts = win_t2 * 72
-        # gets current dimension of upper right corner of document
         pgread1 = pgread.mediaBox.upperRight
-        # subtracts user offset from upper right horizontal coordinate
         win_r2 = pgread1[0] - winr_pts
-        # subtracts user offset from upper right vertical coordinate
         win_t2 = pgread1[1] - wint_pts
-        # sets upper left edge of cropped window
         pgread.mediaBox.upperLeft = (win_r2, pgsize[3])
-        # sets lower left edge of cropped window
         pgread.mediaBox.lowerLeft = (win_r2, win_t2)
-    # if page is any other size than the two above
+    # if page is any other size than the three above
     else:
         pass
 
